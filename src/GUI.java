@@ -31,7 +31,6 @@ public class GUI extends JFrame{
 			}
 		});
 	}
-
 	/**
 	 * Create the frame.
 	 * @param size 
@@ -62,6 +61,37 @@ public class GUI extends JFrame{
 		table.setEnabled(false);
 		return table;
 	}
+	public ActionListener re_save(String[][] str, int size,JFileChooser fileChooser) {
+		ActionListener ls = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 try {
+			            int i = fileChooser.showSaveDialog(null);
+			            if(i==JFileChooser.APPROVE_OPTION){
+			            	File file = fileChooser.getSelectedFile();
+			            	String fname = fileChooser.getName(file);
+			            	if(fname.indexOf(".map")==-1){
+			    				file=new File(fileChooser.getCurrentDirectory(),fname+".map");
+			            	}
+			    			file.createNewFile(); 
+			    			FileWriter writer = new FileWriter(file);
+			    			writer.write(String.valueOf(size)+"\n");
+			                for (int r=0;r<size;r++) {
+								for (int c= 0;c<size;c++) {
+									if(str[r][c].equals("2")) {
+										writer.write(String.valueOf(r*size+c)+"\n");
+									}
+								}
+							}
+			                writer.flush();
+			                writer.close();
+			            }
+			        } catch (Exception e2) {
+			            e2.printStackTrace();
+			        }
+			    }
+		};
+		return ls;
+	}
 	public GUI() {
 		JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
         fileChooser.setFileFilter(new FileNameExtensionFilter("*.map", "map"));
@@ -75,14 +105,12 @@ public class GUI extends JFrame{
 		contentPane.setLayout(new MigLayout("", "[grow]", "[][grow]"));
 		
 		btncreate = new JButton("Create");
-		
 		contentPane.add(btncreate, "flowx,cell 0 0");
 
 		btnsave = new JButton("Save");
 		contentPane.add(btnsave, "cell 0 0");
 		
 		btnload = new JButton("Load");
-	
 		contentPane.add(btnload, "cell 0 0");
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -95,44 +123,14 @@ public class GUI extends JFrame{
 					int size= Integer.parseInt(s);
 					Board board = new Board(size);
 					board = Board.init(board);
-					Object[][] str = new Object[size][size];
+					String[][] str = Board.toString(board);
 					String[] header = new String[size];
 					for (int i=0;i<size;i++) {
 						header[i]="";
-						for (int c= 0;c<size;c++) {
-							str[i][c] = String.valueOf(board.array[i][c]);
-						}
 					}
 					table = Draw(str,header);
 					scrollPane.setViewportView(table);
-					ActionListener ls = new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							 try {
-						            int i = fileChooser.showSaveDialog(null);
-						            if(i==JFileChooser.APPROVE_OPTION){
-						            	File file = fileChooser.getSelectedFile();
-						            	String fname = fileChooser.getName(file);
-						            	if(fname.indexOf(".map")==-1){
-						    				file=new File(fileChooser.getCurrentDirectory(),fname+".map");
-						            	}
-						    			file.createNewFile(); 
-						    			FileWriter writer = new FileWriter(file);
-						    			writer.write(String.valueOf(size)+"\n");
-						                for (int r=0;r<size;r++) {
-											for (int c= 0;c<size;c++) {
-												if(str[r][c].equals("2")) {
-													writer.write(String.valueOf(r*size+c)+"\n");
-												}
-											}
-										}
-						                writer.flush();
-						                writer.close();
-						            }
-						        } catch (Exception e2) {
-						            e2.printStackTrace();
-						        }
-						    }
-					};
+					ActionListener ls = re_save(str,size,fileChooser);
 					if(btnsave.getActionListeners().length!=0) {
 						ActionListener[] old = btnsave.getActionListeners();
 						for(int l=0;l<old.length;l++) {
@@ -156,7 +154,7 @@ public class GUI extends JFrame{
 						BufferedReader br = new BufferedReader(reader);
 						String s = br.readLine();
 						int size = Integer.parseInt(s);
-						Object[][] str = new Object[size][size];
+						String[][] str = new String[size][size];
 						String[] header = new String[size];
 						for (int r=0;r<size;r++) {
 							header[r]="";
@@ -173,34 +171,7 @@ public class GUI extends JFrame{
 						}
 						table = Draw(str,header);
 						scrollPane.setViewportView(table);
-						ActionListener ls = new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								 try {
-							            int i = fileChooser.showSaveDialog(null);
-							            if(i==JFileChooser.APPROVE_OPTION){
-							            	File file = fileChooser.getSelectedFile();
-							            	String fname = fileChooser.getName(file);
-							            	if(fname.indexOf(".map")==-1){
-							    				file=new File(fileChooser.getCurrentDirectory(),fname+".map");
-							            	}
-							    			file.createNewFile(); 
-							    			FileWriter writer = new FileWriter(file);
-							    			writer.write(String.valueOf(size)+"\n");
-							                for (int r=0;r<size;r++) {
-												for (int c= 0;c<size;c++) {
-													if(str[r][c].equals("2")) {
-														writer.write(String.valueOf(r*size+c)+"\n");
-													}
-												}
-											}
-							                writer.flush();
-							                writer.close();
-							            }
-							        } catch (Exception e2) {
-							            e2.printStackTrace();
-							        }
-							    }
-						};
+						ActionListener ls = re_save(str,size,fileChooser);
 						if(btnsave.getActionListeners().length!=0) {
 							ActionListener[] old = btnsave.getActionListeners();
 							for(int l=0;l<old.length;l++) {
@@ -208,7 +179,6 @@ public class GUI extends JFrame{
 							}
 						}
 						btnsave.addActionListener(ls);
-	
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
