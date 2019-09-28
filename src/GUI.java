@@ -131,11 +131,9 @@ public class GUI extends JFrame{
 					table = Draw(str,header);
 					scrollPane.setViewportView(table);
 					ActionListener ls = re_save(str,size,fileChooser);
-					if(btnsave.getActionListeners().length!=0) {
-						ActionListener[] old = btnsave.getActionListeners();
-						for(int l=0;l<old.length;l++) {
-							btnsave.removeActionListener(old[l]);
-						}
+					ActionListener[] old = btnsave.getActionListeners();
+					for(int l=0;l<old.length;l++) {
+						btnsave.removeActionListener(old[l]);
 					}
 					btnsave.addActionListener(ls);
 				}catch(Exception e1){
@@ -172,12 +170,11 @@ public class GUI extends JFrame{
 						table = Draw(str,header);
 						scrollPane.setViewportView(table);
 						ActionListener ls = re_save(str,size,fileChooser);
-						if(btnsave.getActionListeners().length!=0) {
-							ActionListener[] old = btnsave.getActionListeners();
-							for(int l=0;l<old.length;l++) {
-								btnsave.removeActionListener(old[l]);
-							}
+						ActionListener[] old = btnsave.getActionListeners();
+						for(int l=0;l<old.length;l++) {
+							btnsave.removeActionListener(old[l]);
 						}
+						btnsave.addActionListener(ls);
 						btnsave.addActionListener(ls);
 					} catch (Exception e1) {
 						e1.printStackTrace();
