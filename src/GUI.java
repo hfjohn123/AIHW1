@@ -43,11 +43,13 @@ public class GUI extends JFrame{
 		        int modelColumn = convertColumnIndexToModel(column);  
 		        Component comp = super.prepareRenderer(renderer, row, column);  
 		        if (!isRowSelected(modelRow)) {
-		                if (table.getValueAt(modelRow, modelColumn).equals("2")) {
+		                if (table.getValueAt(modelRow, modelColumn).equals("b")) {
 		                    comp.setBackground(Color.BLACK);
 		                    comp.setForeground(Color.BLACK);
-		                }else {                                          
-		                   comp.setBackground(Color.LIGHT_GRAY);
+		                }else if(table.getValueAt(modelRow, modelColumn).equals("S")||table.getValueAt(modelRow, modelColumn).equals("G")||table.getValueAt(modelRow, modelColumn).equals("SG")){      
+		                	  comp.setBackground(Color.WHITE);
+		                }else {
+		                	comp.setBackground(Color.LIGHT_GRAY);
 		                }
 		        }
 		        return comp;
@@ -69,20 +71,21 @@ public class GUI extends JFrame{
 			            if(i==JFileChooser.APPROVE_OPTION){
 			            	File file = fileChooser.getSelectedFile();
 			            	String fname = fileChooser.getName(file);
-			            	if(fname.indexOf(".map")==-1){
+			            	if(!(fname.endsWith(".map"))){
 			    				file=new File(fileChooser.getCurrentDirectory(),fname+".map");
 			            	}
 			    			file.createNewFile(); 
-			    			FileWriter writer = new FileWriter(file);
-			    			writer.write(String.valueOf(size)+"\n");
+			    			PrintWriter writer = new PrintWriter(new FileOutputStream(file),true);
+			    			writer.println(String.valueOf(size));
 			                for (int r=0;r<size;r++) {
 								for (int c= 0;c<size;c++) {
-									if(str[r][c].equals("2")) {
-										writer.write(String.valueOf(r*size+c)+"\n");
+									if(str[r][c].equals("b")) {
+										writer.println(String.valueOf(r*size+c));
+									}else if(str[r][c].contains("S")||str[r][c].contains("G")) {
+										writer.println(String.valueOf(r*size+c)+str[r][c]);
 									}
 								}
 							}
-			                writer.flush();
 			                writer.close();
 			            }
 			        } catch (Exception e2) {
@@ -123,7 +126,7 @@ public class GUI extends JFrame{
 					int size= Integer.parseInt(s);
 					Board board = new Board(size);
 					board = Board.init(board);
-					String[][] str = Board.toString(board);
+					String[][] str = board.array;
 					String[] header = new String[size];
 					for (int i=0;i<size;i++) {
 						header[i]="";
@@ -156,16 +159,36 @@ public class GUI extends JFrame{
 						String[] header = new String[size];
 						for (int r=0;r<size;r++) {
 							header[r]="";
-							for (int c= 0;c<size;c++) {
-								str[r][c] = "0";
+							for(int c=0;c<size;c++) {
+								str[r][c]="";
 							}
 						}
 						String data;
 						while((data = br.readLine())!=null) {
-							int rc =Integer.parseInt(data);
-							int r = rc/size;
-							int c = rc%size;
-							str[r][c] ="2";
+							if(data.endsWith("SG")) {
+								data=data.replaceAll("SG", "");
+								int rc =Integer.parseInt(data);
+								int r = rc/size;
+								int c = rc%size;
+								str[r][c] ="SG";
+							}else if(data.endsWith("S")) {
+								data=data.replaceAll("S", "");
+								int rc =Integer.parseInt(data);
+								int r = rc/size;
+								int c = rc%size;
+								str[r][c] ="S";
+							}else if(data.endsWith("G")) {
+								data=data.replaceAll("G", "");
+								int rc =Integer.parseInt(data);
+								int r = rc/size;
+								int c = rc%size;
+								str[r][c] ="G";
+							}else {
+								int rc =Integer.parseInt(data);
+								int r = rc/size;
+								int c = rc%size;
+								str[r][c] ="b";
+							}
 						}
 						table = Draw(str,header);
 						scrollPane.setViewportView(table);
