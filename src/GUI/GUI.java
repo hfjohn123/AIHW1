@@ -1,19 +1,27 @@
+package GUI;
 import java.awt.EventQueue;
 import javax.swing.*;
 import net.miginfocom.swing.MigLayout;
+import search.Astar;
+
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.table.TableCellRenderer;
+
 import java.io.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.filechooser.*;
+import javax.swing.border.LineBorder;
+
 public class GUI extends JFrame{
+	private Board board = null;
 	private JPanel contentPane;
 	private JButton btnload;
 	private JButton btnsave;
 	private JButton btncreate;
 	private JTable table;
+	private JComboBox comboBox;
 	/**
 	 * Launch the application.
 	 */
@@ -22,7 +30,6 @@ public class GUI extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-				
 					GUI frame = new GUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -46,7 +53,7 @@ public class GUI extends JFrame{
 		                if (table.getValueAt(modelRow, modelColumn).equals("b")) {
 		                    comp.setBackground(Color.BLACK);
 		                    comp.setForeground(Color.BLACK);
-		                }else if(table.getValueAt(modelRow, modelColumn).equals("S")||table.getValueAt(modelRow, modelColumn).equals("G")||table.getValueAt(modelRow, modelColumn).equals("SG")){      
+		                }else if(table.getValueAt(modelRow, modelColumn).equals("S")||table.getValueAt(modelRow, modelColumn).equals("SG")){      
 		                	  comp.setBackground(Color.WHITE);
 		                }else {
 		                	comp.setBackground(Color.LIGHT_GRAY);
@@ -63,7 +70,11 @@ public class GUI extends JFrame{
 		table.setEnabled(false);
 		return table;
 	}
-	public ActionListener re_save(String[][] str, int size,JFileChooser fileChooser) {
+	public ActionListener re_save(Board board,JFileChooser fileChooser) {
+		String[][] str = board.array;
+		int size = board.s+1;
+		int start = board.start;
+		int goal = board.goal;
 		ActionListener ls = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				 try {
@@ -77,12 +88,12 @@ public class GUI extends JFrame{
 			    			file.createNewFile(); 
 			    			PrintWriter writer = new PrintWriter(new FileOutputStream(file),true);
 			    			writer.println(String.valueOf(size));
+			    			writer.println(String.valueOf(start));
+			    			writer.println(String.valueOf(goal));
 			                for (int r=0;r<size;r++) {
 								for (int c= 0;c<size;c++) {
 									if(str[r][c].equals("b")) {
 										writer.println(String.valueOf(r*size+c));
-									}else if(str[r][c].contains("S")||str[r][c].contains("G")) {
-										writer.println(String.valueOf(r*size+c)+str[r][c]);
 									}
 								}
 							}
@@ -105,7 +116,7 @@ public class GUI extends JFrame{
 		contentPane = new JPanel();
 		contentPane.setBorder(null);
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[grow]", "[][grow]"));
+		contentPane.setLayout(new MigLayout("", "[417.00,grow][176.00]", "[][grow]"));
 		
 		btncreate = new JButton("Create");
 		contentPane.add(btncreate, "flowx,cell 0 0");
@@ -115,17 +126,21 @@ public class GUI extends JFrame{
 		
 		btnload = new JButton("Load");
 		contentPane.add(btnload, "cell 0 0");
-		
+		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Repeated Forward A*", "Repeated Backward A*", "Adaptive A*"}));
+		contentPane.add(comboBox, "flowx,cell 1 0,growx");
 		JScrollPane scrollPane = new JScrollPane();
-		contentPane.add(scrollPane, "flowx,cell 0 1,grow");
+		contentPane.add(scrollPane, "flowx,cell 0 1 2 1,grow");
 		
 		btncreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String s=JOptionPane.showInputDialog("Please input the size of the Board:  (n*n)");
 					int size= Integer.parseInt(s);
-					Board board = new Board(size);
+					board = new Board(size);
 					board = Board.init(board);
+					int start = board.start;
+					int goal = board.goal;
 					String[][] str = board.array;
 					String[] header = new String[size];
 					for (int i=0;i<size;i++) {
@@ -133,7 +148,7 @@ public class GUI extends JFrame{
 					}
 					table = Draw(str,header);
 					scrollPane.setViewportView(table);
-					ActionListener ls = re_save(str,size,fileChooser);
+					ActionListener ls = re_save(board,fileChooser);
 					ActionListener[] old = btnsave.getActionListeners();
 					for(int l=0;l<old.length;l++) {
 						btnsave.removeActionListener(old[l]);
@@ -155,6 +170,10 @@ public class GUI extends JFrame{
 						BufferedReader br = new BufferedReader(reader);
 						String s = br.readLine();
 						int size = Integer.parseInt(s);
+						s = br.readLine();
+						int start = Integer.parseInt(s);
+						s = br.readLine();
+						int goal = Integer.parseInt(s);
 						String[][] str = new String[size][size];
 						String[] header = new String[size];
 						for (int r=0;r<size;r++) {
@@ -163,36 +182,27 @@ public class GUI extends JFrame{
 								str[r][c]="";
 							}
 						}
-						String data;
-						while((data = br.readLine())!=null) {
-							if(data.endsWith("SG")) {
-								data=data.replaceAll("SG", "");
-								int rc =Integer.parseInt(data);
-								int r = rc/size;
-								int c = rc%size;
-								str[r][c] ="SG";
-							}else if(data.endsWith("S")) {
-								data=data.replaceAll("S", "");
-								int rc =Integer.parseInt(data);
-								int r = rc/size;
-								int c = rc%size;
-								str[r][c] ="S";
-							}else if(data.endsWith("G")) {
-								data=data.replaceAll("G", "");
-								int rc =Integer.parseInt(data);
-								int r = rc/size;
-								int c = rc%size;
-								str[r][c] ="G";
-							}else {
-								int rc =Integer.parseInt(data);
-								int r = rc/size;
-								int c = rc%size;
-								str[r][c] ="b";
-							}
+						int r = start/size;
+						int c = start%size;
+						if(start==goal) {
+							str[r][c] = "SG";
+						}else {
+							str[r][c] = "S";
+							r = goal/size;
+							c = goal%size;
+							str[r][c] = "G";
 						}
+						while((s = br.readLine())!=null) {
+								int rc =Integer.parseInt(s);
+								r = rc/size;
+								c = rc%size;
+								str[r][c] ="b";
+							
+						}
+						board = new Board(str,size-1,start,goal);
 						table = Draw(str,header);
 						scrollPane.setViewportView(table);
-						ActionListener ls = re_save(str,size,fileChooser);
+						ActionListener ls = re_save(board,fileChooser);
 						ActionListener[] old = btnsave.getActionListeners();
 						for(int l=0;l<old.length;l++) {
 							btnsave.removeActionListener(old[l]);
@@ -205,5 +215,30 @@ public class GUI extends JFrame{
 				}
 			}
 		});
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Board Res = null;
+				if(board!=null) {
+					int al = comboBox.getSelectedIndex();
+					if(al==1) {
+						Res = Astar.Foward(board);
+					}else if(al==2) {
+						Res = board;
+					}else if(al==3) {
+						Res = board;
+					}else {
+						Res = board;
+					}
+				String[][] str = Res.array;
+				String[] header = new String[board.s+1];
+				for (int i=0;i<board.s+1;i++) {
+				header[i]="";
+				}
+				table = Draw(str,header);
+				scrollPane.setViewportView(table);
+				}
+			}
+		});
 	}
+	
 }

@@ -1,8 +1,12 @@
+package GUI;
 import java.util.*;
 
 public class Board {
-	int s = 0;
-	String array[][];
+	public int s = 0;
+	public int start=0;
+	public int goal = 0;
+	public String array[][];
+	
 	Board (int size){
 		s = size-1;
 		array=new String[size][size];
@@ -11,6 +15,12 @@ public class Board {
 				array[r][c]="";
 			}
 		}
+	}	
+	Board (String[][] array,int s,int start,int goal){
+		this.s=s;
+		this.array=array;
+		this.start=start;
+		this.goal=goal;
 	}	
 	public static Board init(Board board) {
 		Stack<Integer> visited = new Stack<Integer>(); 
@@ -65,14 +75,18 @@ public class Board {
 			c_num = (int)(Math.random() * (board.s+1));
 		}while(board.array[r_num][c_num].equals("b"));
 		board.array[r_num][c_num]="S";
+		board.start=r_num*(board.s+1)+c_num;
 		do{
 			r_num = (int)(Math.random() * (board.s+1));
 			c_num = (int)(Math.random() * (board.s+1));
 		}while(board.array[r_num][c_num].equals("b"));
 		if(board.array[r_num][c_num].equals("S")) {
 			board.array[r_num][c_num]="SG";
+			board.start=r_num*(board.s+1)+c_num;
+			board.goal=r_num*(board.s+1)+c_num;
 		}else {
 			board.array[r_num][c_num]="G";
+			board.goal=r_num*(board.s+1)+c_num;
 		}
 		return board;
 	}	 
