@@ -221,7 +221,7 @@ public class GUI extends JFrame{
 				if(board!=null) {
 					int al = comboBox.getSelectedIndex();
 					if(al==1) {
-						Res = Astar.Foward(board);
+						//Res = Astar.Foward(board);
 					}else if(al==2) {
 						Res = board;
 					}else if(al==3) {
