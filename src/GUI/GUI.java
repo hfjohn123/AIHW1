@@ -53,8 +53,8 @@ public class GUI extends JFrame{
 		                if (table.getValueAt(modelRow, modelColumn).equals("b")) {
 		                    comp.setBackground(Color.BLACK);
 		                    comp.setForeground(Color.BLACK);
-		                }else if(table.getValueAt(modelRow, modelColumn).equals("S")||table.getValueAt(modelRow, modelColumn).equals("SG")){      
-		                	  comp.setBackground(Color.WHITE);
+		                }else if(table.getValueAt(modelRow, modelColumn).equals("r")||table.getValueAt(modelRow, modelColumn).equals("SG")){      
+		                	  comp.setBackground(Color.RED);
 		                }else {
 		                	comp.setBackground(Color.LIGHT_GRAY);
 		                }
@@ -71,7 +71,7 @@ public class GUI extends JFrame{
 		return table;
 	}
 	public ActionListener re_save(Board board,JFileChooser fileChooser) {
-		String[][] str = board.array;
+		String[][] str = Board.toString(board);
 		int size = board.s+1;
 		int start = board.start;
 		int goal = board.goal;
@@ -138,10 +138,10 @@ public class GUI extends JFrame{
 					String s=JOptionPane.showInputDialog("Please input the size of the Board:  (n*n)");
 					int size= Integer.parseInt(s);
 					board = new Board(size);
-					board = Board.init(board);
+					board.init();
 					int start = board.start;
 					int goal = board.goal;
-					String[][] str = board.array;
+					String[][] str = Board.toString(board);
 					String[] header = new String[size];
 					for (int i=0;i<size;i++) {
 						header[i]="";
@@ -187,7 +187,7 @@ public class GUI extends JFrame{
 						if(start==goal) {
 							str[r][c] = "SG";
 						}else {
-							str[r][c] = "S";
+							str[r][c] = "r";
 							r = goal/size;
 							c = goal%size;
 							str[r][c] = "G";
@@ -221,7 +221,7 @@ public class GUI extends JFrame{
 				if(board!=null) {
 					int al = comboBox.getSelectedIndex();
 					if(al==1) {
-						//Res = Astar.Foward(board);
+						Res = Astar.main(board);
 					}else if(al==2) {
 						Res = board;
 					}else if(al==3) {
@@ -229,7 +229,7 @@ public class GUI extends JFrame{
 					}else {
 						Res = board;
 					}
-				String[][] str = Res.array;
+				String[][] str = Board.toString(board);
 				String[] header = new String[board.s+1];
 				for (int i=0;i<board.s+1;i++) {
 				header[i]="";

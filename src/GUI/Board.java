@@ -1,93 +1,111 @@
 package GUI;
 import java.util.*;
 
+import search.Node;
+
 public class Board {
 	public int s = 0;
 	public int start=0;
 	public int goal = 0;
-	public String array[][];
+	public Node array[][];
 	
 	Board (int size){
 		s = size-1;
-		array=new String[size][size];
+		array=new Node[size][size];
 		for(int r=0;r<size;r++) {
 			for(int c=0;c<size;c++) {
-				array[r][c]="";
+				array[r][c]=new Node(r*size+c);
 			}
 		}
 	}	
 	Board (String[][] array,int s,int start,int goal){
 		this.s=s;
-		this.array=array;
 		this.start=start;
 		this.goal=goal;
+		for(int r=0;r<s+1;r++) {
+			for(int c=0;c<s+1;c++) {
+				this.array[r][c]=new Node(array[r][c],r*(s+1)+c);
+			}
+		}
 	}	
-	public static Board init(Board board) {
+	public void init() {
 		Stack<Integer> visited = new Stack<Integer>(); 
-		int r_num = (int)(Math.random() * (board.s+1));
-		int c_num = (int)(Math.random() * (board.s+1));
-		board.array[r_num][c_num]=" ";
-		visited.push(r_num*(board.s+1)+c_num);
+		int r_num = (int)(Math.random() * (s+1));
+		int c_num = (int)(Math.random() * (s+1));
+		array[r_num][c_num].type = " ";
+		visited.push(r_num*(s+1)+c_num);
 		while(!visited.empty()) {
 			int rc=visited.pop();
-			int r = rc/(board.s+1);
-			int c = rc%(board.s+1);
-			if(c<board.s  && board.array[r][c+1]=="" ) {
+			int r = rc/(s+1);
+			int c = rc%(s+1);
+			if(c<s  && array[r][c+1].type=="" ) {
 				visited.push(rc);
 				double ran = Math.random();
 				if (ran<0.3) {
-					board.array[r][c+1]="b";
+					array[r][c+1].type="b";
 				}else {
-					board.array[r][c+1]=" ";
+					array[r][c+1].type=" ";
 					visited.push(rc+1);
 				}	
-			}else if(c>0  && board.array[r][c-1]==""){
+			}else if(c>0  && array[r][c-1].type==""){
 				visited.push(rc);
 				double ran = Math.random();
 				if (ran<0.3) {
-					board.array[r][c-1]="b";
+					array[r][c-1].type="b";
 				}else {
-					board.array[r][c-1]=" ";
+					array[r][c-1].type=" ";
 					visited.push(rc-1);
 				}
-			}else if(r<board.s && board.array[r+1][c]=="") {
+			}else if(r<s && array[r+1][c].type=="") {
 				visited.push(rc);
 				double ran = Math.random();
 				if (ran<0.3) {
-					board.array[r+1][c]="b";
+					array[r+1][c].type="b";
 				}else {
-					board.array[r+1][c]=" ";
-					visited.push(rc+1+board.s);
+					array[r+1][c].type=" ";
+					visited.push(rc+1+s);
 				}
-			}else if(r>0 && board.array[r-1][c]=="") {
+			}else if(r>0 && array[r-1][c].type=="") {
 				visited.push(rc);
 				double ran = Math.random();
 				if (ran<0.3) {
-					board.array[r-1][c]="b";
+					array[r-1][c].type="b";
 				}else {
-					board.array[r-1][c]=" ";
-					visited.push(rc-1-board.s);
+					array[r-1][c].type=" ";
+					visited.push(rc-1-s);
 				}
 			}
 		}
 		do{
-			r_num = (int)(Math.random() * (board.s+1));
-			c_num = (int)(Math.random() * (board.s+1));
-		}while(board.array[r_num][c_num].equals("b"));
-		board.array[r_num][c_num]="S";
-		board.start=r_num*(board.s+1)+c_num;
+			r_num = (int)(Math.random() * (s+1));
+			c_num = (int)(Math.random() * (s+1));
+		}while(array[r_num][c_num].type.equals("b"));
+		start=r_num*(s+1)+c_num;
+		array[r_num][c_num].type = "r";
 		do{
-			r_num = (int)(Math.random() * (board.s+1));
-			c_num = (int)(Math.random() * (board.s+1));
-		}while(board.array[r_num][c_num].equals("b"));
-		if(board.array[r_num][c_num].equals("S")) {
-			board.array[r_num][c_num]="SG";
-			board.start=r_num*(board.s+1)+c_num;
-			board.goal=r_num*(board.s+1)+c_num;
+			r_num = (int)(Math.random() * (s+1));
+			c_num = (int)(Math.random() * (s+1));
+		}while(array[r_num][c_num].type.equals("b"));
+		goal=r_num*(s+1)+c_num;
+		if (goal==start) {
+			array[r_num][c_num].type = "SG";
 		}else {
-			board.array[r_num][c_num]="G";
-			board.goal=r_num*(board.s+1)+c_num;
+			array[r_num][c_num].type = "G";
 		}
-		return board;
+		for (int r=0;r<s+1;r++) {
+			for (int c=0;c<s+1;c++) {
+				array[r][c].h_cost = Math.abs(r-r_num)+Math.abs(c-c_num);
+			}
+		}
 	}	 
+	public static String[][] toString(Board board){
+		String[][] res = new String[board.s+1][board.s+1];
+		for (int r=0;r<board.s+1;r++) {
+			for(int c=0;c<board.s+1;c++) {
+				res[r][c]=board.array[r][c].type;
+			}
+		}
+		return res;
+	}
+
 } 
