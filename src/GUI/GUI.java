@@ -12,7 +12,6 @@ import java.io.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.filechooser.*;
-import javax.swing.border.LineBorder;
 
 public class GUI extends JFrame{
 	private Board board = null;
@@ -25,8 +24,7 @@ public class GUI extends JFrame{
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		
+	public static void main(final String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -239,5 +237,4 @@ public class GUI extends JFrame{
 			}
 		});
 	}
-	
 }
