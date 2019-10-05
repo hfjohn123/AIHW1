@@ -217,19 +217,15 @@ public class GUI extends JFrame{
 		});
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Board Res = null;
+				Board Res = Board.clone(board);
+				Res.find_h();
 				if(board!=null) {
 					int al = comboBox.getSelectedIndex();
 					if(al==1) {
-						Res = Board.clone(board);
-						Res.find_h();
 						Res = Astar.main(Res);
 					}else if(al==2) {
-						Res = board;
 					}else if(al==3) {
-						Res = board;
 					}else {
-						Res = board;
 					}
 				String[][] str = Board.toString(Res);
 				String[] header = new String[Res.s+1];
