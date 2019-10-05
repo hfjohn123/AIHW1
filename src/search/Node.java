@@ -20,9 +20,6 @@ public class Node implements Comparable<Node>{
 		
 	}
 	public Node(String type, int cord) {
-		g_cost = 0;
-		h_cost =0;
-		s_cost = 0;
 		this.cord=cord;
 		this.type = type;
 	}

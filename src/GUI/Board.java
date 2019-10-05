@@ -18,13 +18,14 @@ public class Board {
 			}
 		}
 	}	
-	Board (String[][] array,int s,int start,int goal){
+	Board (String[][] str,int s,int start,int goal){
 		this.s=s;
 		this.start=start;
 		this.goal=goal;
+		array = new Node[s+1][s+1];
 		for(int r=0;r<s+1;r++) {
 			for(int c=0;c<s+1;c++) {
-				this.array[r][c]=new Node(array[r][c],r*(s+1)+c);
+				array[r][c]=new Node(str[r][c],r*(s+1)+c);
 			}
 		}
 	}	
@@ -92,12 +93,17 @@ public class Board {
 		}else {
 			array[r_num][c_num].type = "G";
 		}
+	
+	}	 
+	public void find_h() {
+		int r_num = goal/(s+1);
+		int c_num = goal %(s+1);
 		for (int r=0;r<s+1;r++) {
 			for (int c=0;c<s+1;c++) {
 				array[r][c].h_cost = Math.abs(r-r_num)+Math.abs(c-c_num);
 			}
 		}
-	}	 
+	}
 	public static String[][] toString(Board board){
 		String[][] res = new String[board.s+1][board.s+1];
 		for (int r=0;r<board.s+1;r++) {
@@ -107,5 +113,8 @@ public class Board {
 		}
 		return res;
 	}
-
+	public static Board clone(Board board) {
+		Board res = new Board(Board.toString(board),board.s,board.start,board.goal);
+		return res;
+	}
 } 

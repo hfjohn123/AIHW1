@@ -221,7 +221,9 @@ public class GUI extends JFrame{
 				if(board!=null) {
 					int al = comboBox.getSelectedIndex();
 					if(al==1) {
-						Res = Astar.main(board);
+						Res = Board.clone(board);
+						Res.find_h();
+						Res = Astar.main(Res);
 					}else if(al==2) {
 						Res = board;
 					}else if(al==3) {
@@ -229,9 +231,9 @@ public class GUI extends JFrame{
 					}else {
 						Res = board;
 					}
-				String[][] str = Board.toString(board);
-				String[] header = new String[board.s+1];
-				for (int i=0;i<board.s+1;i++) {
+				String[][] str = Board.toString(Res);
+				String[] header = new String[Res.s+1];
+				for (int i=0;i<Res.s+1;i++) {
 				header[i]="";
 				}
 				table = Draw(str,header);
