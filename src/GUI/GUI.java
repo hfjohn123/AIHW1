@@ -63,9 +63,9 @@ public class GUI extends JFrame{
 		    }
 		};
 		for(int i=0;i<header.length;i++) {
-			table.getColumnModel().getColumn(i).setPreferredWidth(50);
+			table.getColumnModel().getColumn(i).setPreferredWidth(20);
 		}
-		table.setRowHeight(50);
+		table.setRowHeight(20);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setEnabled(false);
 		return table;
@@ -238,6 +238,7 @@ public class GUI extends JFrame{
 				}
 				table = Draw(str,header);
 				scrollPane.setViewportView(table);
+				comboBox.setSelectedIndex(0);
 				}
 			}
 		});

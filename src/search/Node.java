@@ -17,7 +17,6 @@ public class Node implements Comparable<Node>{
 		s_cost = 0;
 		type  = "";
 		this.cord=cord;
-		
 	}
 	public Node(String type, int cord) {
 		this.cord=cord;
