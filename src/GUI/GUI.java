@@ -206,7 +206,6 @@ public class GUI extends JFrame{
 							btnsave.removeActionListener(old[l]);
 						}
 						btnsave.addActionListener(ls);
-						btnsave.addActionListener(ls);
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
