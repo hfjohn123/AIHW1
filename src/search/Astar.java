@@ -57,11 +57,11 @@ public class Astar {
 		int counter = 0;
 		while (board.start != board.goal) {
 			counter++;
-			int r_g = board.start/(board.s+1);
-			int c_g = board.start%(board.s+1);
+			int r_g = board.goal/(board.s+1);
+			int c_g = board.goal%(board.s+1);
 			board.array[r_g][c_g].set_cost(counter, 0);
-			int r_s = board.goal/(board.s+1);
-			int c_s = board.goal%(board.s+1);
+			int r_s = board.start/(board.s+1);
+			int c_s = board.start%(board.s+1);
 			board.array[r_s][c_s].set_cost(counter, Double.POSITIVE_INFINITY);
 			PriorityQueue<Node> Open = new PriorityQueue<Node>();
 			Open.add(board.array[r_g][c_g]);
@@ -71,9 +71,7 @@ public class Astar {
 				return board;
 			}
 			Node temp = board.array[r_s][c_s];
-			while (temp.pre != board.array[r_g][c_g]) {
-				temp = temp.pre;
-			}
+			temp = temp.pre;
 			board.start = temp.cord;
 			temp.type = "r";
 		}
