@@ -28,7 +28,7 @@ public class Astar {
 	}
 	public static Board main(Board board) {
 		int counter = 0;
-		while (board.start != board.goal) {
+		if (board.start != board.goal) {
 			counter++;
 			int r_s = board.start/(board.s+1);
 			int c_s = board.start%(board.s+1);
@@ -49,13 +49,14 @@ public class Astar {
 			}
 			board.start = temp.cord;
 			temp.type = "r";
+		}else {
+			JOptionPane.showMessageDialog(null,"You got it!");
 		}
-		JOptionPane.showMessageDialog(null,"Got it!");
 		return board;
 	}
 	public static Board BAStar(Board board) {
 		int counter = 0;
-		while (board.start != board.goal) {
+		if (board.start != board.goal) {
 			counter++;
 			int r_g = board.start/(board.s+1);
 			int c_g = board.start%(board.s+1);
@@ -76,8 +77,9 @@ public class Astar {
 			}
 			board.start = temp.cord;
 			temp.type = "r";
+		}else{
+			JOptionPane.showMessageDialog(null,"You got it!");
 		}
-		JOptionPane.showMessageDialog(null,"Got it!");
 		return board;
 	}
 }
