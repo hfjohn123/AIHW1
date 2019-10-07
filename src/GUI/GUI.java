@@ -248,12 +248,8 @@ public class GUI extends JFrame{
 					int al = comboBox.getSelectedIndex();
 					if(al==1) {
 						Res = Astar.main(Res);
-						
 					}else if(al==2) {
 						Res = Astar.BAStar(Res);
-						String[][] str = Board.toString(Res);
-						table = Draw(str,header);
-						scrollPane.setViewportView(table);
 					}else if(al==3) {
 					}else {
 						JOptionPane.showMessageDialog(null,"Please select the A* you want");
