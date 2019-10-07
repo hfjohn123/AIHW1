@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 
 import GUI.Board;
 public class Astar {
-	public static void ComputePath (Node goal, Node start, PriorityQueue<Node> Open,Board board,int counter) {
+	private static void ComputePath (Node goal, Node start, PriorityQueue<Node> Open,Board board,int counter) {
 		while (Open.peek()!=null&&goal.g_cost> Open.peek().g_cost+Open.peek().h_cost) {
 			Node tem  = Open.remove();
 			tem.findNei(board);
@@ -26,7 +26,7 @@ public class Astar {
 		}
 		
 	}
-	public static Board main(Board board) {
+	public static void main(Board board) {
 		int counter = 0;
 		while (board.start != board.goal) {
 			counter++;
@@ -41,7 +41,7 @@ public class Astar {
 			ComputePath(board.array[r_g][c_g], board.array[r_s][c_s], Open,board,counter);
 			if(Open.isEmpty()) {
 				JOptionPane.showMessageDialog(null,"No path found!");
-				return board;
+				return;
 			}
 			Node temp = board.array[r_g][c_g];
 			while (temp.pre != board.array[r_s][c_s]) {
@@ -51,9 +51,9 @@ public class Astar {
 			temp.type = "r";
 		}
 		JOptionPane.showMessageDialog(null,"Got it!");
-		return board;
+	
 	}
-	public static Board BAStar(Board board) {
+	public static void BAStar(Board board) {
 		int counter = 0;
 		while (board.start != board.goal) {
 			counter++;
@@ -68,7 +68,7 @@ public class Astar {
 			ComputePath(board.array[r_s][c_s], board.array[r_g][c_g], Open,board,counter);
 			if(Open.isEmpty()) {
 				JOptionPane.showMessageDialog(null,"No path found!");
-				return board;
+				return;
 			}
 			Node temp = board.array[r_s][c_s];
 			temp = temp.pre;
@@ -76,6 +76,5 @@ public class Astar {
 			temp.type = "r";
 		}
 		JOptionPane.showMessageDialog(null,"Got it!");
-		return board;
 	}
 }

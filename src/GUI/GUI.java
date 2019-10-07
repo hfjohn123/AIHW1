@@ -247,10 +247,11 @@ public class GUI extends JFrame{
 					}
 					int al = comboBox.getSelectedIndex();
 					if(al==1) {
-						Res = Astar.main(Res);
+						Astar.main(Res);
 					}else if(al==2) {
-						Res = Astar.BAStar(Res);
+						Astar.BAStar(Res);
 					}else if(al==3) {
+						
 					}else {
 						JOptionPane.showMessageDialog(null,"Please select the A* you want");
 					}
