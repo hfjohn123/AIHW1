@@ -21,6 +21,8 @@ public class GUI extends JFrame{
 	private JButton btncreate;
 	private JTable table;
 	private JComboBox comboBox;
+	private JButton btnStart;
+	private Board Res;
 	/**
 	 * Launch the application.
 	 */
@@ -114,7 +116,7 @@ public class GUI extends JFrame{
 		contentPane = new JPanel();
 		contentPane.setBorder(null);
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[417.00,grow][176.00]", "[][grow]"));
+		contentPane.setLayout(new MigLayout("", "[417.00,grow][176.00][]", "[][grow]"));
 		
 		btncreate = new JButton("Create");
 		contentPane.add(btncreate, "flowx,cell 0 0");
@@ -127,8 +129,12 @@ public class GUI extends JFrame{
 		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Repeated Forward A*", "Repeated Backward A*", "Adaptive A*"}));
 		contentPane.add(comboBox, "flowx,cell 1 0,growx");
+		
+		btnStart = new JButton("Start");
+		
+		contentPane.add(btnStart, "cell 2 0");
 		final JScrollPane scrollPane = new JScrollPane();
-		contentPane.add(scrollPane, "flowx,cell 0 1 2 1,grow");
+		contentPane.add(scrollPane, "flowx,cell 0 1 3 1,grow");
 		
 		btncreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -152,6 +158,7 @@ public class GUI extends JFrame{
 						btnsave.removeActionListener(old[l]);
 					}
 					btnsave.addActionListener(ls);
+					comboBox.setSelectedIndex(0);
 				}catch(Exception e1){
 					e1.printStackTrace();
 				}
@@ -206,6 +213,7 @@ public class GUI extends JFrame{
 							btnsave.removeActionListener(old[l]);
 						}
 						btnsave.addActionListener(ls);
+						comboBox.setSelectedIndex(0);
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
@@ -214,25 +222,45 @@ public class GUI extends JFrame{
 		});
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Board Res = Board.clone(board);
-				Res.find_h();
-				if(board!=null) {
+				if (board!=null) {
+					Res = Board.clone(board);
+					Res.find_h();
+					String[][] str = Board.toString(Res);
+					String[] header = new String[Res.s+1];
+					for (int i=0;i<Res.s+1;i++) {
+						header[i]="";
+					}
+					table = Draw(str,header);
+					scrollPane.setViewportView(table);
+				}else {
+					JOptionPane.showMessageDialog(null,"Oops there is no maze yet");
+					comboBox.setSelectedIndex(0);
+				}
+			}
+		});
+		btnStart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(Res != null) {
+					String[] header = new String[Res.s+1];
+					for (int i=0;i<Res.s+1;i++) {
+						header[i]="";
+					}
 					int al = comboBox.getSelectedIndex();
 					if(al==1) {
 						Res = Astar.main(Res);
+						
 					}else if(al==2) {
 						Res = Astar.BAStar(Res);
+						String[][] str = Board.toString(Res);
+						table = Draw(str,header);
+						scrollPane.setViewportView(table);
 					}else if(al==3) {
 					}else {
+						JOptionPane.showMessageDialog(null,"Please select the A* you want");
 					}
-				String[][] str = Board.toString(Res);
-				String[] header = new String[Res.s+1];
-				for (int i=0;i<Res.s+1;i++) {
-				header[i]="";
-				}
-				table = Draw(str,header);
-				scrollPane.setViewportView(table);
-				comboBox.setSelectedIndex(0);
+					String[][] str = Board.toString(Res);
+					table = Draw(str,header);
+					scrollPane.setViewportView(table);
 				}
 			}
 		});
