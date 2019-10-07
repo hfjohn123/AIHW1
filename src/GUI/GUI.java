@@ -68,11 +68,11 @@ public class GUI extends JFrame{
 		table.setEnabled(false);
 		return table;
 	}
-	public ActionListener re_save(Board board,JFileChooser fileChooser) {
-		String[][] str = Board.toString(board);
-		int size = board.s+1;
-		int start = board.start;
-		int goal = board.goal;
+	public ActionListener re_save(Board board,final JFileChooser fileChooser) {
+		final String[][] str = Board.toString(board);
+		final int size = board.s+1;
+		final int start = board.start;
+		final int goal = board.goal;
 		ActionListener ls = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				 try {
@@ -105,7 +105,7 @@ public class GUI extends JFrame{
 		return ls;
 	}
 	public GUI() {
-		JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
+		final JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
         fileChooser.setFileFilter(new FileNameExtensionFilter("*.map", "map"));
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -127,7 +127,7 @@ public class GUI extends JFrame{
 		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Repeated Forward A*", "Repeated Backward A*", "Adaptive A*"}));
 		contentPane.add(comboBox, "flowx,cell 1 0,growx");
-		JScrollPane scrollPane = new JScrollPane();
+		final JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, "flowx,cell 0 1 2 1,grow");
 		
 		btncreate.addActionListener(new ActionListener() {
@@ -222,6 +222,7 @@ public class GUI extends JFrame{
 					if(al==1) {
 						Res = Astar.main(Res);
 					}else if(al==2) {
+						Res = Astar.BAStar(Res);
 					}else if(al==3) {
 					}else {
 					}
