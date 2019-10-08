@@ -8,7 +8,7 @@ public class Board {
 	public int start=0;
 	public int goal = 0;
 	public Node array[][];
-	
+	public int counter =0;
 	Board (int size){
 		s = size-1;
 		array=new Node[size][size];
@@ -104,6 +104,9 @@ public class Board {
 				array[r][c].findNei(this);
 			}
 		}
+		int r_s = start/(s+1);
+		int c_s = start%(s+1);
+		array[r_s][c_s].vis_findNei(this);
 	}
 	public static String[][] toString(Board board){
 		String[][] res = new String[board.s+1][board.s+1];

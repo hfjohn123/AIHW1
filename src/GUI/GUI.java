@@ -23,6 +23,7 @@ public class GUI extends JFrame{
 	private JComboBox comboBox;
 	private JButton btnStart;
 	private Board Res;
+	private String[] header;
 	/**
 	 * Launch the application.
 	 */
@@ -146,7 +147,7 @@ public class GUI extends JFrame{
 					int start = board.start;
 					int goal = board.goal;
 					String[][] str = Board.toString(board);
-					String[] header = new String[size];
+					header = new String[size];
 					for (int i=0;i<size;i++) {
 						header[i]="";
 					}
@@ -180,7 +181,7 @@ public class GUI extends JFrame{
 						s = br.readLine();
 						int goal = Integer.parseInt(s);
 						String[][] str = new String[size][size];
-						String[] header = new String[size];
+						header = new String[size];
 						for (int r=0;r<size;r++) {
 							header[r]="";
 							for(int c=0;c<size;c++) {
@@ -226,7 +227,7 @@ public class GUI extends JFrame{
 					Res = Board.clone(board);
 					Res.find_h();
 					String[][] str = Board.toString(Res);
-					String[] header = new String[Res.s+1];
+					header = new String[Res.s+1];
 					for (int i=0;i<Res.s+1;i++) {
 						header[i]="";
 					}
@@ -241,13 +242,8 @@ public class GUI extends JFrame{
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(Res != null) {
-					String[] header = new String[Res.s+1];
-					for (int i=0;i<Res.s+1;i++) {
-						header[i]="";
-					}
 					int al = comboBox.getSelectedIndex();
 					if(al==1) {
-
 						Res = Astar.main(Res);
 						String[][] str = Board.toString(Res);
 						table = Draw(str,header);

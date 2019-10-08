@@ -53,4 +53,21 @@ public class Node implements Comparable<Node>{
 			Nei.add(board.array[r-1][c]);
 		}
 	}
+	public void vis_findNei(Board board) {
+		Nei.clear();
+		int r = cord / (board.s+1);
+		int c = cord%(board.s+1);
+		if (c>0 && board.array[r][c-1].type!="b") {
+			Nei.add(board.array[r][c-1]);
+		}
+		if(c<board.s  && board.array[r][c+1].type!="b" ) {
+			Nei.add(board.array[r][c+1]);
+		}
+		if(r<board.s && board.array[r+1][c].type!="b") {
+			Nei.add(board.array[r+1][c]);
+		}
+		if(r>0 && board.array[r-1][c].type!="b") {
+			Nei.add(board.array[r-1][c]);
+		}
+	}
 }
