@@ -9,7 +9,6 @@ public class Astar {
 	public static void ComputePath (Node goal, Node start, PriorityQueue<Node> Open,Board board,int counter) {
 		while (Open.peek()!=null&&goal.g_cost> Open.peek().g_cost+Open.peek().h_cost) {
 			Node tem  = Open.remove();
-			tem.findNei(board);
 			for (Node x : tem.Nei) {
 				if (x.s_cost < counter) {
 					x.set_cost(counter, Double.POSITIVE_INFINITY);
@@ -74,6 +73,7 @@ public class Astar {
 			Node temp = board.array[r_s][c_s];
 			while (temp.pre != board.array[r_g][c_g]) {
 				temp = temp.pre;
+				
 			}
 			board.start = temp.cord;
 			temp.type = "r";
