@@ -21,6 +21,7 @@ public class Node implements Comparable<Node>{
 	public Node(String type, int cord) {
 		this.cord=cord;
 		this.type = type;
+		s_cost = 0;
 	}
 	public void set_cost (int s_cost,double g_cost){
 		this.s_cost=s_cost;
