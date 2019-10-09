@@ -106,7 +106,7 @@ public class Astar {
 			board.array[r_s][c_s].set_cost(board.counter, 0);
 			int r_g = board.goal/(board.s+1);
 			int c_g = board.goal%(board.s+1);
-			if(!(Close.isEmpty())) {
+			while(!(Close.isEmpty())) {
 				Node x = Close.pop();
 				x.h_cost = (int) (board.array[r_g][c_g].g_cost-x.g_cost);
 			}
