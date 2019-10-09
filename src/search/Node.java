@@ -10,7 +10,7 @@ public class Node implements Comparable<Node>{
 	public String type;
 	public int cord;
 	public Node pre;
-	ArrayList<Node> Nei = new ArrayList<Node>();
+	public ArrayList<Node> Nei = new ArrayList<Node>();
 	public Node(int cord){
 		g_cost = 0;
 		h_cost =0;
@@ -57,17 +57,33 @@ public class Node implements Comparable<Node>{
 		Nei.clear();
 		int r = cord / (board.s+1);
 		int c = cord%(board.s+1);
-		if (c>0 && board.array[r][c-1].type!="b") {
-			Nei.add(board.array[r][c-1]);
+		if (c>0) {
+			if(board.array[r][c-1].type!="b") {
+				Nei.add(board.array[r][c-1]);
+			}else {
+				board.blocked(board.array[r][c-1]);
+			}
 		}
-		if(c<board.s  && board.array[r][c+1].type!="b" ) {
-			Nei.add(board.array[r][c+1]);
+		if(c<board.s) {
+			if(board.array[r][c+1].type!="b" ) {
+				Nei.add(board.array[r][c+1]);
+			}else {
+				board.blocked(board.array[r][c+1]);
+			}
 		}
-		if(r<board.s && board.array[r+1][c].type!="b") {
-			Nei.add(board.array[r+1][c]);
+		if(r<board.s) {
+			if(board.array[r+1][c].type!="b") {
+				Nei.add(board.array[r+1][c]);
+			}else {
+				board.blocked(board.array[r+1][c]);
+			}
 		}
-		if(r>0 && board.array[r-1][c].type!="b") {
-			Nei.add(board.array[r-1][c]);
+		if(r>0) {
+			if(board.array[r-1][c].type!="b") {
+				Nei.add(board.array[r-1][c]);
+			}else {
+				board.blocked(board.array[r-1][c]);
+			}
 		}
 	}
 }

@@ -108,6 +108,23 @@ public class Board {
 		int c_s = start%(s+1);
 		array[r_s][c_s].vis_findNei(this);
 	}
+	public void blocked(Node x) {
+		x.Nei = new ArrayList<Node>();
+		int r = x.cord /(s+1);
+		int c = x.cord%(s+1);
+		if(c>0) {
+			array[r][c-1].Nei.remove(x);
+		}
+		if(c<s) {
+			array[r][c+1].Nei.remove(x);
+		}
+		if(r<s) {
+			array[r+1][c].Nei.remove(x);
+		}
+		if(r>0) {
+			array[r-1][c].Nei.remove(x);
+		}
+	}
 	public static String[][] toString(Board board){
 		String[][] res = new String[board.s+1][board.s+1];
 		for (int r=0;r<board.s+1;r++) {

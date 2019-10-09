@@ -62,20 +62,14 @@ public class Astar {
 		return board;
 	}
 	public static Board BAStar(Board board) {
-		int counter = 0;
-		for (Node[] r : board.array) {
-			for (Node x: r) {
-				x.s_cost=0;
-			}
-		}
 		while (board.start != board.goal) {
-			counter++;
+			board.counter++;
 			int r_g = board.goal/(board.s+1);
 			int c_g = board.goal%(board.s+1);
-			board.array[r_g][c_g].set_cost(counter, 0);
+			board.array[r_g][c_g].set_cost(board.counter, 0);
 			int r_s = board.start/(board.s+1);
 			int c_s = board.start%(board.s+1);
-			board.array[r_s][c_s].set_cost(counter, Double.POSITIVE_INFINITY);
+			board.array[r_s][c_s].set_cost(board.counter, Double.POSITIVE_INFINITY);
 			PriorityQueue<Node> Open = new PriorityQueue<Node>();
 			Open.add(board.array[r_g][c_g]);
 			ComputePath(board.array[r_s][c_s], board.array[r_g][c_g], Open,board);
@@ -83,15 +77,20 @@ public class Astar {
 				JOptionPane.showMessageDialog(null,"No path found!");
 				return board;
 			}
-			Node temp = board.array[r_s][c_s];
-			temp = temp.pre;
-			if(temp.type.equals("b")) {
-				temp.vis_findNei(board);
-				return board;
-			}else {
-				board.start = temp.cord;
-				temp.type = "r";
-			}
+			do {
+				r_s = board.start/(board.s+1);
+				c_s = board.start%(board.s+1);
+				Node temp = board.array[r_s][c_s];
+				temp = temp.pre;
+				if(temp.type.equals("b")) {
+					temp.vis_findNei(board);
+					return board;
+				}else {
+					temp.vis_findNei(board);
+					board.start = temp.cord;
+					temp.type = "r";
+				}
+			}while(board.start != board.goal);
 		}
 		JOptionPane.showMessageDialog(null,"You got it!");
 		return board;
