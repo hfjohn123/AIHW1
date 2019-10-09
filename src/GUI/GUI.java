@@ -3,12 +3,13 @@ import java.awt.EventQueue;
 import javax.swing.*;
 import net.miginfocom.swing.MigLayout;
 import search.Astar;
-
+import search.Node;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.table.TableCellRenderer;
 
 import java.io.*;
+import java.util.Stack;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.filechooser.*;
@@ -24,6 +25,7 @@ public class GUI extends JFrame{
 	private JButton btnStart;
 	private Board Res;
 	private String[] header;
+	private Stack<Node> Close;
 	/**
 	 * Launch the application.
 	 */
@@ -235,6 +237,7 @@ public class GUI extends JFrame{
 					table = Draw(str,header);
 					scrollPane.setViewportView(table);
 					scrollPane.getVerticalScrollBar().setValue(val);
+					Close = new Stack<Node>();
 				}else {
 					JOptionPane.showMessageDialog(null,"Oops there is no maze yet");
 					comboBox.setSelectedIndex(0);
@@ -250,16 +253,16 @@ public class GUI extends JFrame{
 					}else if(al==2) {
 						Res = Astar.BAStar(Res);
 					}else if(al==3) {
-						
+						Res = Astar.AAStar(Res,Close);
 					}else {
 						JOptionPane.showMessageDialog(null,"Please select the A* you want");
 					}
+					int val = scrollPane.getVerticalScrollBar().getValue();
+					String[][] str = Board.toString(Res);
+					table = Draw(str,header);
+					scrollPane.setViewportView(table);
+					scrollPane.getVerticalScrollBar().setValue(val);
 				}
-				int val = scrollPane.getVerticalScrollBar().getValue();
-				String[][] str = Board.toString(Res);
-				table = Draw(str,header);
-				scrollPane.setViewportView(table);
-				scrollPane.getVerticalScrollBar().setValue(val);
 			}
 		});
 	}

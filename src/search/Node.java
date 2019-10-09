@@ -34,7 +34,13 @@ public class Node implements Comparable<Node>{
 		}else if(this.g_cost+this.h_cost > o.g_cost+o.h_cost) {
 			return 1;
 		}else {
-			return 0;
+			if(this.g_cost>o.g_cost) {
+				return -1;
+			}else if(this.g_cost<o.g_cost) {
+				return 1;
+			}else {
+				return 0;
+			}
 		}
 	}
 	public void findNei (Board board){
