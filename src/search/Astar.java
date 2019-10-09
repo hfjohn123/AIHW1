@@ -103,13 +103,13 @@ public class Astar {
 			board.counter++;
 			int r_s = board.start/(board.s+1);
 			int c_s = board.start%(board.s+1);
-			board.array[r_s][c_s].set_cost(board.counter, 0);
 			int r_g = board.goal/(board.s+1);
 			int c_g = board.goal%(board.s+1);
 			while(!(Close.isEmpty())) {
 				Node x = Close.pop();
 				x.h_cost = (int) (board.array[r_g][c_g].g_cost-x.g_cost);
 			}
+			board.array[r_s][c_s].set_cost(board.counter, 0);
 			board.array[r_g][c_g].set_cost(board.counter, Double.POSITIVE_INFINITY);
 			PriorityQueue<Node> Open = new PriorityQueue<Node>();
 			Open.add(board.array[r_s][c_s]);
@@ -122,15 +122,12 @@ public class Astar {
 			while (temp.pre != board.array[r_s][c_s]) {
 				temp = temp.pre;
 			}
-			if (temp.type.equals("b")) {
-				temp.vis_findNei(board);
-				return board;
-			}else {
+		
 				temp.vis_findNei(board);
 				board.start = temp.cord;
 				temp.type = "r";
 				return board;
-			}
+			
 		}
 		JOptionPane.showMessageDialog(null,"You got it!");
 		return board;
