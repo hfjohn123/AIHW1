@@ -64,28 +64,28 @@ public class Node implements Comparable<Node>{
 		int r = cord / (board.s+1);
 		int c = cord%(board.s+1);
 		if (c>0) {
-			if(board.array[r][c-1].type!="b") {
+			if(!(board.array[r][c-1].type.startsWith("b"))) {
 				Nei.add(board.array[r][c-1]);
 			}else {
 				board.blocked(board.array[r][c-1]);
 			}
 		}
 		if(c<board.s) {
-			if(board.array[r][c+1].type!="b" ) {
+			if(!(board.array[r][c+1].type.startsWith("b"))) {
 				Nei.add(board.array[r][c+1]);
 			}else {
 				board.blocked(board.array[r][c+1]);
 			}
 		}
 		if(r<board.s) {
-			if(board.array[r+1][c].type!="b") {
+			if(!(board.array[r+1][c].type.startsWith("b"))) {
 				Nei.add(board.array[r+1][c]);
 			}else {
 				board.blocked(board.array[r+1][c]);
 			}
 		}
 		if(r>0) {
-			if(board.array[r-1][c].type!="b") {
+			if(!(board.array[r-1][c].type.startsWith("b"))) {
 				Nei.add(board.array[r-1][c]);
 			}else {
 				board.blocked(board.array[r-1][c]);

@@ -53,14 +53,18 @@ public class GUI extends JFrame{
 		        int modelColumn = convertColumnIndexToModel(column);  
 		        Component comp = super.prepareRenderer(renderer, row, column);  
 		        if (!isRowSelected(modelRow)) {
-		                if (table.getValueAt(modelRow, modelColumn).equals("b")) {
+		        		if(table.getValueAt(modelRow, modelColumn).toString().endsWith(".")) {
+		                	comp.setBackground(Color.WHITE);
+		                }
+		                if (table.getValueAt(modelRow, modelColumn).toString().startsWith("b")) {
 		                    comp.setBackground(Color.BLACK);
 		                    comp.setForeground(Color.BLACK);
-		                }else if(table.getValueAt(modelRow, modelColumn).equals("r")||table.getValueAt(modelRow, modelColumn).equals("SG")){      
+		                }else if(table.getValueAt(modelRow, modelColumn).toString().startsWith("r")||table.getValueAt(modelRow, modelColumn).toString().startsWith("SG")){      
 		                	  comp.setBackground(Color.RED);
-		                }else {
+		                }else if(!table.getValueAt(modelRow, modelColumn).toString().endsWith(".")){
 		                	comp.setBackground(Color.LIGHT_GRAY);
 		                }
+		               
 		        }
 		        return comp;
 		    }
@@ -266,6 +270,13 @@ public class GUI extends JFrame{
 					scrollPane.setViewportView(table);
 					scrollPane.getVerticalScrollBar().setValue(val);
 					scrollPane.getHorizontalScrollBar().setValue(hval);
+					for(Node[] x:Res.array) {
+						for(Node y:x) {
+							if(y.type.endsWith(".")) {
+								y.type=y.type.replace(".", "");
+							}
+						}
+					}
 				}
 			}
 		});

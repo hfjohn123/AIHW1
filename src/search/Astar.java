@@ -49,9 +49,12 @@ public class Astar {
 				c_s = board.start%(board.s+1);
 				Node temp = board.array[r_g][c_g];
 				while (temp.pre != board.array[r_s][c_s]) {
+					if(!temp.type.endsWith(".")) {
+					temp.type=temp.type+".";
+					}
 					temp = temp.pre;
 				}
-				if (temp.type.equals("b")) {
+				if (temp.type.startsWith("b")) {
 					temp.vis_findNei(board);
 					return board;
 				}else {
@@ -85,8 +88,14 @@ public class Astar {
 				c_s = board.start%(board.s+1);
 				Node temp = board.array[r_s][c_s];
 				temp = temp.pre;
-				if(temp.type.equals("b")) {
+				if(temp.type.startsWith("b")) {
 					temp.vis_findNei(board);
+					while(temp.pre!=null) {
+						if(!temp.type.endsWith(".")) {
+							temp.type=temp.type+".";
+							}
+							temp = temp.pre;
+					}
 					return board;
 				}else {
 					temp.vis_findNei(board);
@@ -120,6 +129,9 @@ public class Astar {
 			}
 			Node temp = board.array[r_g][c_g];
 			while (temp.pre != board.array[r_s][c_s]) {
+				if(!temp.type.endsWith(".")) {
+				temp.type=temp.type+".";
+				}
 				temp = temp.pre;
 			}
 		
