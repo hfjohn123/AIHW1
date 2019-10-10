@@ -233,11 +233,13 @@ public class GUI extends JFrame{
 					for (int i=0;i<Res.s+1;i++) {
 						header[i]="";
 					}
+					int hval = scrollPane.getHorizontalScrollBar().getValue();
 					int val = scrollPane.getVerticalScrollBar().getValue();
 					table = Draw(str,header);
 					scrollPane.setViewportView(table);
 					scrollPane.getVerticalScrollBar().setValue(val);
 					Close = new Stack<Node>();
+					scrollPane.getHorizontalScrollBar().setValue(hval);
 				}else {
 					JOptionPane.showMessageDialog(null,"Oops there is no maze yet");
 					comboBox.setSelectedIndex(0);
@@ -258,10 +260,12 @@ public class GUI extends JFrame{
 						JOptionPane.showMessageDialog(null,"Please select the A* you want");
 					}
 					int val = scrollPane.getVerticalScrollBar().getValue();
+					int hval = scrollPane.getHorizontalScrollBar().getValue();
 					String[][] str = Board.toString(Res);
 					table = Draw(str,header);
 					scrollPane.setViewportView(table);
 					scrollPane.getVerticalScrollBar().setValue(val);
+					scrollPane.getHorizontalScrollBar().setValue(hval);
 				}
 			}
 		});
