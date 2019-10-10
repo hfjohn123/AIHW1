@@ -127,19 +127,25 @@ public class Astar {
 				JOptionPane.showMessageDialog(null,"No path found!");
 				return board;
 			}
-			Node temp = board.array[r_g][c_g];
+			do {
+				r_s = board.start/(board.s+1);
+				c_s = board.start%(board.s+1);
+				Node temp = board.array[r_g][c_g];
 			while (temp.pre != board.array[r_s][c_s]) {
 				if(!temp.type.endsWith(".")) {
 				temp.type=temp.type+".";
 				}
 				temp = temp.pre;
 			}
-		
+			if (temp.type.startsWith("b")) {
+				temp.vis_findNei(board);
+				return board;
+			}else {
 				temp.vis_findNei(board);
 				board.start = temp.cord;
 				temp.type = "r";
-				return board;
-			
+			}
+			}while(board.start!=board.goal);
 		}
 		JOptionPane.showMessageDialog(null,"You got it!");
 		return board;
