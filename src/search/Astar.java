@@ -109,7 +109,7 @@ public class Astar {
 				Node x = Close.pop();
 				x.h_cost = (int) (board.array[r_g][c_g].g_cost-x.g_cost);
 			}
-			board.array[r_s][c_s].set_cost(board.counter, 0);
+			board.array[r_s][c_s].set_cost(board.counter,0);
 			board.array[r_g][c_g].set_cost(board.counter, Double.POSITIVE_INFINITY);
 			PriorityQueue<Node> Open = new PriorityQueue<Node>();
 			Open.add(board.array[r_s][c_s]);
@@ -131,6 +131,5 @@ public class Astar {
 		}
 		JOptionPane.showMessageDialog(null,"You got it!");
 		return board;
-
 	}
 }
