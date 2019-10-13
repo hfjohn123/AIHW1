@@ -231,7 +231,12 @@ public class GUI extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if (board!=null) {
 					Res = Board.clone(board);
-					Res.find_h();
+					if (comboBox.getSelectedIndex()==2) {
+						Res.find_bh();
+					}else {
+						Res.find_h();
+
+					}
 					String[][] str = Board.toString(Res);
 					header = new String[Res.s+1];
 					for (int i=0;i<Res.s+1;i++) {
@@ -244,6 +249,7 @@ public class GUI extends JFrame{
 					scrollPane.getVerticalScrollBar().setValue(val);
 					Close = new Stack<Node>();
 					scrollPane.getHorizontalScrollBar().setValue(hval);
+					
 				}else {
 					JOptionPane.showMessageDialog(null,"Oops there is no maze yet");
 					comboBox.setSelectedIndex(0);

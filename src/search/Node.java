@@ -61,8 +61,8 @@ public class Node implements Comparable<Node>{
 	}
 	public void vis_findNei(Board board) {
 		Nei.clear();
-		int r = cord / (board.s+1);
-		int c = cord%(board.s+1);
+		int r = this.cord / (board.s+1);
+		int c = this.cord%(board.s+1);
 		if (c>0) {
 			if(!(board.array[r][c-1].type.startsWith("b"))) {
 				Nei.add(board.array[r][c-1]);
