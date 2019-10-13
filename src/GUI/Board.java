@@ -9,6 +9,8 @@ public class Board {
 	public int goal = 0;
 	public Node array[][];
 	public int counter =0;
+	public int space = 0;
+	public int length = 0;
 	Board (int size){
 		s = size-1;
 		array=new Node[size][size];

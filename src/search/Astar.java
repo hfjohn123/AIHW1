@@ -9,6 +9,7 @@ public class Astar {
 	private static void ComputePath (Node goal, Node start, PriorityQueue<Node> Open,Stack<Node> Close,Board board) {
 		while (Open.peek()!=null&&goal.g_cost> Open.peek().g_cost+Open.peek().h_cost) {
 			Node tem  = Open.remove();
+			board.space++;
 			if(Close !=null) {
 				Close.add(tem);
 			}
@@ -61,10 +62,12 @@ public class Astar {
 					temp.vis_findNei(board);
 					board.start = temp.cord;
 					temp.type = "r";
+					board.length ++;
 				}
 			}while(board.start != board.goal);
 		}
 		JOptionPane.showMessageDialog(null,"You got it!");
+		System.out.println("Routes_planed: "+board.counter+" Cells_Expended: "+board.space+" Route_length: "+board.length);
 		return board;
 	}
 	public static Board BAStar(Board board) {
@@ -101,10 +104,12 @@ public class Astar {
 					temp.vis_findNei(board);
 					board.start = temp.cord;
 					temp.type = "r";
+					board.length ++;
 				}
 			}while(board.start != board.goal);
 		}
 		JOptionPane.showMessageDialog(null,"You got it!");
+		System.out.println("Routes_planed: "+board.counter+" Cells_Expended: "+board.space+" Route_length: "+board.length);
 		return board;
 	}
 	public static Board AAStar(Board board,Stack<Node> Close) {
@@ -144,10 +149,12 @@ public class Astar {
 				temp.vis_findNei(board);
 				board.start = temp.cord;
 				temp.type = "r";
+				board.length ++;
 			}
 			}while(board.start!=board.goal);
 		}
 		JOptionPane.showMessageDialog(null,"You got it!");
+		System.out.println("Routes_planed: "+board.counter+" Cells_Expended: "+board.space+" Route_length: "+board.length);
 		return board;
 	}
 }
