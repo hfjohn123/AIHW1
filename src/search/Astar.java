@@ -55,7 +55,7 @@ public class Astar {
 					temp = temp.pre;
 				}
 				if (temp.type.startsWith("b")) {
-					temp.vis_findNei(board);
+					board.blocked(temp);
 					return board;
 				}else {
 					temp.vis_findNei(board);
@@ -89,7 +89,7 @@ public class Astar {
 				Node temp = board.array[r_s][c_s];
 				temp = temp.pre;
 				if(temp.type.startsWith("b")) {
-					temp.vis_findNei(board);
+					board.blocked(temp);
 					while(temp.pre!=null) {
 						if(!temp.type.endsWith(".")) {
 							temp.type=temp.type+".";
@@ -138,7 +138,7 @@ public class Astar {
 				temp = temp.pre;
 			}
 			if (temp.type.startsWith("b")) {
-				temp.vis_findNei(board);
+				board.blocked(temp);
 				return board;
 			}else {
 				temp.vis_findNei(board);
