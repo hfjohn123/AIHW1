@@ -43,6 +43,8 @@ public class Astar {
 			ComputePath(board.array[r_g][c_g], board.array[r_s][c_s], Open,null,board);
 			if(Open.isEmpty()) {
 				JOptionPane.showMessageDialog(null,"No path found!");
+				System.out.println("Routes_planed: "+board.counter+" Cells_Expended: "+board.space+" Route_length: "+board.length);
+
 				return board;
 			}
 			do {
@@ -85,6 +87,8 @@ public class Astar {
 			ComputePath(board.array[r_s][c_s], board.array[r_g][c_g],Open,null,board);
 			if(Open.isEmpty()) {
 				JOptionPane.showMessageDialog(null,"No path found!");
+				System.out.println("Routes_planed: "+board.counter+" Cells_Expended: "+board.space+" Route_length: "+board.length);
+
 				return board;
 			}
 			do {
@@ -145,6 +149,7 @@ public class Astar {
 			}
 			if (temp.type.startsWith("b")) {
 				board.blocked(temp);
+				System.out.println("Routes_planed: "+board.counter+" Cells_Expended: "+board.space+" Route_length: "+board.length);
 				return board;
 			}else {
 				temp.vis_findNei(board);
