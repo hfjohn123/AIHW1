@@ -72,6 +72,7 @@ public class Astar {
 	}
 	public static Board BAStar(Board board) {
 		while (board.start != board.goal) {
+			board.find_bh();
 			board.counter++;
 			int r_g = board.goal/(board.s+1);
 			int c_g = board.goal%(board.s+1);

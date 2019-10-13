@@ -137,7 +137,7 @@ public class GUI extends JFrame{
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Repeated Forward A*", "Repeated Backward A*", "Adaptive A*"}));
 		contentPane.add(comboBox, "flowx,cell 1 0,growx");
 		
-		btnStart = new JButton("Start");
+		btnStart = new JButton("Start/Next");
 		
 		contentPane.add(btnStart, "cell 2 0");
 		final JScrollPane scrollPane = new JScrollPane();
@@ -146,7 +146,7 @@ public class GUI extends JFrame{
 		btncreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String s=JOptionPane.showInputDialog("Please input the size of the Board:  (n*n)");
+					String s=JOptionPane.showInputDialog("Please input N:  (for N*N size of the board)");
 					int size= Integer.parseInt(s);
 					board = new Board(size);
 					board.init();
@@ -231,12 +231,7 @@ public class GUI extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if (board!=null) {
 					Res = Board.clone(board);
-					if (comboBox.getSelectedIndex()==2) {
-						Res.find_bh();
-					}else {
-						Res.find_h();
-
-					}
+					Res.find_h();
 					String[][] str = Board.toString(Res);
 					header = new String[Res.s+1];
 					for (int i=0;i<Res.s+1;i++) {

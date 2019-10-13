@@ -116,10 +116,8 @@ public class Board {
 		for (int r=0;r<s+1;r++) {
 			for (int c=0;c<s+1;c++) {
 				array[r][c].h_cost = Math.abs(r-r_num)+Math.abs(c-c_num);
-				array[r][c].findNei(this);
 			}
 		}
-		array[r_num][c_num].vis_findNei(this);
 	}
 	public void blocked(Node x) {
 		x.Nei = new ArrayList<Node>();
