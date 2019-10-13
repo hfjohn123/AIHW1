@@ -90,7 +90,7 @@ public class Astar {
 				temp = temp.pre;
 				if(temp.type.startsWith("b")) {
 					board.blocked(temp);
-					while(temp.pre!=null) {
+					while(temp!=null) {
 						if(!temp.type.endsWith(".")) {
 							temp.type=temp.type+".";
 							}
