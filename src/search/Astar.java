@@ -1,6 +1,11 @@
 package search;
 
 import java.util.*;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 
 import javax.swing.JOptionPane;
 
@@ -43,6 +48,9 @@ public class Astar {
 			ComputePath(board.array[r_g][c_g], board.array[r_s][c_s], Open,null,board);
 			if(Open.isEmpty()) {
 				JOptionPane.showMessageDialog(null,"No path found!");
+				Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+				Transferable trans = new StringSelection(board.counter+"\t"+board.space+"\t"+board.length);
+				clipboard.setContents(trans,null);
 				System.out.println("Routes_planed: "+board.counter+" Cells_Expended: "+board.space+" Route_length: "+board.length);
 
 				return board;
@@ -69,6 +77,9 @@ public class Astar {
 			}while(board.start != board.goal);
 		}
 		JOptionPane.showMessageDialog(null,"You got it!");
+		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+		Transferable trans = new StringSelection(board.counter+"\t"+board.space+"\t"+board.length);
+		clipboard.setContents(trans,null);
 		System.out.println("Routes_planed: "+board.counter+" Cells_Expended: "+board.space+" Route_length: "+board.length);
 		return board;
 	}
@@ -160,6 +171,7 @@ public class Astar {
 			}while(board.start!=board.goal);
 		}
 		JOptionPane.showMessageDialog(null,"You got it!");
+		
 		System.out.println("Routes_planed: "+board.counter+" Cells_Expended: "+board.space+" Route_length: "+board.length);
 		return board;
 	}
