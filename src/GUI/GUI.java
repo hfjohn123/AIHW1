@@ -75,6 +75,7 @@ public class GUI extends JFrame{
 		table.setRowHeight(20);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setEnabled(false);
+		table.setTableHeader(null);
 		return table;
 	}
 	public ActionListener re_save(Board board,final JFileChooser fileChooser) {

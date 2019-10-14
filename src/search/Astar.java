@@ -99,7 +99,9 @@ public class Astar {
 			if(Open.isEmpty()) {
 				JOptionPane.showMessageDialog(null,"No path found!");
 				System.out.println("Routes_planed: "+board.counter+" Cells_Expended: "+board.space+" Route_length: "+board.length);
-
+				Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+				Transferable trans = new StringSelection(board.counter+"\t"+board.space+"\t"+board.length);
+				clipboard.setContents(trans,null);
 				return board;
 			}
 			do {
@@ -126,6 +128,9 @@ public class Astar {
 		}
 		JOptionPane.showMessageDialog(null,"You got it!");
 		System.out.println("Routes_planed: "+board.counter+" Cells_Expended: "+board.space+" Route_length: "+board.length);
+		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+		Transferable trans = new StringSelection(board.counter+"\t"+board.space+"\t"+board.length);
+		clipboard.setContents(trans,null);
 		return board;
 	}
 	public static Board AAStar(Board board,Stack<Node> Close) {
@@ -146,6 +151,10 @@ public class Astar {
 			ComputePath(board.array[r_g][c_g], board.array[r_s][c_s], Open,Close,board);
 			if(Open.isEmpty()) {
 				JOptionPane.showMessageDialog(null,"No path found!");
+				Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+				Transferable trans = new StringSelection(board.counter+"\t"+board.space+"\t"+board.length);
+				clipboard.setContents(trans,null);
+				System.out.println("Routes_planed: "+board.counter+" Cells_Expended: "+board.space+" Route_length: "+board.length);
 				return board;
 			}
 			do {
@@ -160,7 +169,6 @@ public class Astar {
 			}
 			if (temp.type.startsWith("b")) {
 				board.blocked(temp);
-				System.out.println("Routes_planed: "+board.counter+" Cells_Expended: "+board.space+" Route_length: "+board.length);
 				return board;
 			}else {
 				temp.vis_findNei(board);
@@ -171,7 +179,9 @@ public class Astar {
 			}while(board.start!=board.goal);
 		}
 		JOptionPane.showMessageDialog(null,"You got it!");
-		
+		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+		Transferable trans = new StringSelection(board.counter+"\t"+board.space+"\t"+board.length);
+		clipboard.setContents(trans,null);
 		System.out.println("Routes_planed: "+board.counter+" Cells_Expended: "+board.space+" Route_length: "+board.length);
 		return board;
 	}
